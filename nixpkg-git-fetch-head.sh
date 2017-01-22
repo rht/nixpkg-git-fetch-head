@@ -4,7 +4,8 @@ URL=${URL:0:-1}  # remove trailing semicolon
 
 HEAD=$(git ls-remote $URL HEAD | cut -f1)  # HEAD hash
 METADATA=$(./pkgs/build-support/fetchgit/nix-prefetch-git --deepClone --url $URL --rev $HEAD 2>&1)  # get the repo metadata
-VERSION=$(echo "$METADATA" | grep 'git human-readable' | cut -d' ' -f5 | sed 's/-[0-9]*-/-/')  # in the last step, the total number of tags of the repo is clipped away
+VERSION=$(echo "$METADATA" | grep 'Commit date is' | cut -d' ' -f4)
+#VERSION=$(echo "$METADATA" | grep 'git human-readable' | cut -d' ' -f5 | sed 's/-[0-9]*-/-/')  # in the last step, the total number of tags of the repo is clipped away
 SHA256=$(echo "$METADATA" | grep sha256 | cut -d':' -f2 | cut -d'"' -f2)
 
 # edit file in-place
